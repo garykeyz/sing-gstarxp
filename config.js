@@ -1,0 +1,3 @@
+window.GSTAR_CONFIG = {
+  appsScriptUrl: 'REPLACE_WITH_APPS_SCRIPT_EXEC_URL'
+};
