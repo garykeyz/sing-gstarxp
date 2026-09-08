@@ -1,62 +1,92 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#080710">
-  <meta name="description" content="Envía tu canción al host de Guest Star Experience.">
-  <title>Sing Request — Guest Star Experience</title>
+  <meta name="description" content="Request your karaoke song from the Guest Star host.">
+  <title>Karaoke Request — Guest Star Experience</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="aurora aurora-pink" aria-hidden="true"></div>
+  <div class="aurora aurora-cyan" aria-hidden="true"></div>
+  <div class="ambient-notes" aria-hidden="true">
+    <span class="note note-one">♪</span><span class="note note-two">♫</span>
+    <span class="note note-three">♬</span><span class="spark spark-one">✦</span>
+    <span class="spark spark-two">✧</span>
+  </div>
+
   <main class="shell">
-    <header class="brand"><span>✦</span> Guest Star Experience</header>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Guest Star Experience"><span>✦</span> Guest Star Team</a>
+      <details class="locale-control" id="locale-control">
+        <summary><span id="locale-flag">🇺🇸</span><strong id="locale-name">English</strong><i>⌄</i></summary>
+        <div class="locale-menu" role="menu" aria-label="Interface language">
+          <button type="button" data-locale-option="es">🇪🇸 <span>Español</span></button>
+          <button type="button" data-locale-option="en">🇺🇸 <span>English</span></button>
+          <button type="button" data-locale-option="fr">🇫🇷 <span>Français</span></button>
+          <button type="button" data-locale-option="it">🇮🇹 <span>Italiano</span></button>
+          <button type="button" data-locale-option="de">🇩🇪 <span>Deutsch</span></button>
+          <button type="button" data-locale-option="ru">🇷🇺 <span>Русский</span></button>
+          <button type="button" data-locale-option="pt">🇵🇹 <span>Português</span></button>
+        </div>
+      </details>
+    </header>
+
     <section class="card" aria-live="polite">
-      <div class="icon" aria-hidden="true">♩</div>
+      <div class="card-glow" aria-hidden="true"></div>
+      <div class="icon" aria-hidden="true"><span>♩</span></div>
 
       <div id="language-step" class="step active">
-        <p class="eyebrow">✧ Idioma de la canción</p>
-        <h1>¿En qué idioma vas a cantar?</h1>
-        <p class="intro">Elige un idioma para encontrar las mejores versiones de karaoke.</p>
-        <div class="language-grid" role="group" aria-label="Idioma de la canción">
-          <button class="language" data-language="Español"><span>🇪🇸</span> Español <b>✓</b></button>
-          <button class="language" data-language="Latinoamérica"><span>🌎</span> Latinoamérica <b>✓</b></button>
-          <button class="language" data-language="Inglés"><span>🇺🇸</span> Inglés <b>✓</b></button>
-          <button class="language" data-language="Francés"><span>🇫🇷</span> Francés <b>✓</b></button>
-          <button class="language" data-language="Italiano"><span>🇮🇹</span> Italiano <b>✓</b></button>
-          <button class="language" data-language="Alemán"><span>🇩🇪</span> Alemán <b>✓</b></button>
-          <button class="language" data-language="Portugués"><span>🇧🇷</span> Portugués <b>✓</b></button>
-          <button class="language" data-language="Ruso"><span>🇷🇺</span> Ruso <b>✓</b></button>
+        <p class="eyebrow">✧ <span data-i18n="languageEyebrow">Song language</span></p>
+        <h1 data-i18n="languageTitle">What language will you sing in?</h1>
+        <p class="intro" data-i18n="languageIntro">Choose a language before completing your request. This helps us find the best karaoke version and lets the host know your selection.</p>
+        <div class="language-grid" role="group" aria-label="Song language">
+          <button class="language" type="button" data-locale="es"><span>🇪🇸</span><strong data-language-name="es">Spanish</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="en"><span>🇺🇸</span><strong data-language-name="en">English</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="fr"><span>🇫🇷</span><strong data-language-name="fr">French</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="it"><span>🇮🇹</span><strong data-language-name="it">Italian</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="de"><span>🇩🇪</span><strong data-language-name="de">German</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="ru"><span>🇷🇺</span><strong data-language-name="ru">Russian</strong><b>✓</b></button>
+          <button class="language" type="button" data-locale="pt"><span>🇵🇹</span><strong data-language-name="pt">Portuguese</strong><b>✓</b></button>
         </div>
       </div>
 
       <form id="request-form" class="step" novalidate>
-        <button type="button" class="back" id="back-button">← Cambiar idioma</button>
-        <p class="eyebrow">✧ Tu solicitud</p>
-        <h1>¿Qué canción quieres cantar?</h1>
+        <button type="button" class="back" id="back-button">← <span data-i18n="changeLanguage">Change language</span></button>
+        <p class="eyebrow">✧ <span data-i18n="requestEyebrow">Live experience</span></p>
+        <h1 data-i18n="requestTitle">Ready to sing?</h1>
+        <p class="intro form-intro" data-i18n="requestIntro">Request your favorite song and get ready to shine on stage.</p>
         <div class="selected-language"><span id="language-flag">🎤</span><strong id="language-name"></strong></div>
         <input type="hidden" name="language" id="language-input">
         <input type="hidden" name="requestId" id="request-id">
         <input class="trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="fields">
-          <label>Cantante <input name="singer" maxlength="80" autocomplete="name" required placeholder="Tu nombre"></label>
-          <label>Título <input name="title" maxlength="120" required placeholder="Nombre de la canción"></label>
-          <label>Artista <input name="artist" maxlength="120" required placeholder="Artista original"></label>
-          <label>Nota <span>(opcional)</span><textarea name="note" maxlength="300" rows="3" placeholder="Dedicatoria o detalle para el host"></textarea></label>
+          <label><span data-i18n="singerLabel">Your name</span> <em>*</em><input name="singer" maxlength="80" autocomplete="name" required data-i18n-placeholder="singerPlaceholder" placeholder="What should we call you?"></label>
+          <label><span data-i18n="titleLabel">Song title</span> <em>*</em><input name="title" maxlength="120" required data-i18n-placeholder="titlePlaceholder" placeholder="What would you like to sing?"></label>
+          <label><span data-i18n="artistLabel">Artist</span> <em>*</em><input name="artist" maxlength="120" required data-i18n-placeholder="artistPlaceholder" placeholder="Who performs it?"></label>
+          <label><span data-i18n="noteLabel">Comment</span><textarea name="note" maxlength="300" rows="3" data-i18n-placeholder="notePlaceholder" placeholder="Optional dedication or note..."></textarea></label>
         </div>
         <p id="form-error" class="message error" role="alert"></p>
-        <button class="submit" type="submit"><span>Enviar solicitud</span><i>→</i></button>
+        <button class="submit" type="submit"><span data-i18n="submit">Submit request</span><i>→</i></button>
+        <div class="mini-steps" aria-hidden="true">
+          <span><b>1</b><i data-i18n="miniOne">Fill the form</i></span>
+          <span><b>2</b><i data-i18n="miniTwo">Wait for your turn</i></span>
+          <span><b>3</b><i data-i18n="miniThree">Sing and enjoy!</i></span>
+        </div>
       </form>
 
       <div id="success-step" class="step success">
         <div class="success-mark">✓</div>
-        <p class="eyebrow">✧ Solicitud recibida</p>
-        <h1>¡Ya estás en la lista!</h1>
-        <p class="intro">El host recibió tu canción y verá tres versiones de karaoke recomendadas.</p>
-        <p class="request-code">Código: <strong id="success-id"></strong></p>
-        <button type="button" class="submit" id="new-request"><span>Enviar otra canción</span><i>＋</i></button>
+        <p class="eyebrow">✧ <span data-i18n="successEyebrow">Request received</span></p>
+        <h1 data-i18n="successTitle">You're on the list!</h1>
+        <p class="intro" data-i18n="successIntro">The host received your song and will see three recommended karaoke versions.</p>
+        <p class="request-code"><span data-i18n="codeLabel">Code</span>: <strong id="success-id"></strong></p>
+        <button type="button" class="submit" id="new-request"><span data-i18n="newRequest">Request another song</span><i>＋</i></button>
       </div>
     </section>
+
     <footer>Guest Star Team · sing.gstarxp.com</footer>
   </main>
   <script src="config.js"></script>
