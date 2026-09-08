@@ -1,3 +1,4 @@
+const SHEET_ID = '18kB1tAbD0Dj1yS9wOwy_DV45SCPFoyhaa7I2ycj8Iwk';
 const REQUESTS_SHEET = 'Solicitudes';
 const PRIORITIES_SHEET = 'Prioridades';
 const HEADERS = [
@@ -17,6 +18,10 @@ const DEFAULT_PRIORITIES = {
   'Italiano':['Sing King','Italian Karaoke – Backing Tracks','Karaoke Gaetano','Basi Musicali','KaraFun Karaoke','JAM Karaoke Italia','The Karaoke Channel','Vocal-Star Karaoke','EasyKaraoke','Party Tyme Karaoke'],
   'Ruso':['Sing King','Калинка Караоке — Kalinka Karaoke','MnogoNotka','KaraRuTV','КАРАОКЕ Базы и Диски','KaraFun Karaoke','The Karaoke Channel','Party Tyme Karaoke','Vocal-Star Karaoke','EasyKaraoke']
 };
+
+function spreadsheet_() {
+  return SpreadsheetApp.openById(SHEET_ID);
+}
 
 function doGet(e) {
   const data = e && e.parameter && e.parameter.action === 'status'
@@ -43,7 +48,7 @@ function doPost(e) {
     validate_(request);
     const existing = getRequestStatus_(request.id);
     if (existing.found) return json_({ok:true, duplicate:true, requestId:request.id});
-    const sheet = SpreadsheetApp.getActive().getSheetByName(REQUESTS_SHEET);
+    const sheet = spreadsheet_().getSheetByName(REQUESTS_SHEET);
     const lock = LockService.getDocumentLock();
     lock.waitLock(10000);
     let row;
@@ -110,7 +115,7 @@ function getPriorities_(language) {
   const key = `priorities:${language}`;
   const stored = cache.get(key);
   if (stored) return JSON.parse(stored);
-  const sheet = SpreadsheetApp.getActive().getSheetByName(PRIORITIES_SHEET);
+  const sheet = spreadsheet_().getSheetByName(PRIORITIES_SHEET);
   const rows = sheet.getLastRow() > 1 ? sheet.getRange(2,1,sheet.getLastRow()-1,3).getDisplayValues() : [];
   const list = rows.filter(row => row[0] === language).sort((a,b) => Number(a[1])-Number(b[1])).map(row => row[2]).filter(Boolean);
   cache.put(key, JSON.stringify(list), 300);
@@ -119,7 +124,7 @@ function getPriorities_(language) {
 
 function getRequestStatus_(id) {
   if (!id) return {found:false};
-  const sheet = SpreadsheetApp.getActive().getSheetByName(REQUESTS_SHEET);
+  const sheet = spreadsheet_().getSheetByName(REQUESTS_SHEET);
   if (!sheet || sheet.getLastRow() < 2) return {found:false};
   const found = sheet.getRange(2,3,sheet.getLastRow()-1,1).createTextFinder(id).matchEntireCell(true).findNext();
   if (!found) return {found:false};
@@ -143,7 +148,7 @@ function clearPriorityCache() { CacheService.getScriptCache().removeAll(Object.k
 function testSearch() { Logger.log(searchKaraoke_({title:'Imagine',artist:'John Lennon',language:'Inglés'})); }
 
 function setupProject() {
-  const book = SpreadsheetApp.getActive();
+  const book = spreadsheet_();
   let requests = book.getSheetByName(REQUESTS_SHEET);
   if (!requests) requests = book.insertSheet(REQUESTS_SHEET);
   requests.clear();
@@ -164,6 +169,6 @@ function setupProject() {
 }
 
 function ensureSheets_() {
-  const book = SpreadsheetApp.getActive();
+  const book = spreadsheet_();
   if (!book.getSheetByName(REQUESTS_SHEET) || !book.getSheetByName(PRIORITIES_SHEET)) setupProject();
 }
