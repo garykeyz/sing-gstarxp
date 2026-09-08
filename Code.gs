@@ -49,7 +49,7 @@ function doPost(e) {
     const existing = getRequestStatus_(request.id);
     if (existing.found) return json_({ok:true, duplicate:true, requestId:request.id});
     const sheet = spreadsheet_().getSheetByName(REQUESTS_SHEET);
-    const lock = LockService.getDocumentLock();
+    const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     let row;
     try {
